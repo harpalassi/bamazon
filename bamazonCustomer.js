@@ -61,9 +61,19 @@ function itemAndQuantity() {
         if (answer.quantity > products[userItem].stock_quantity) {
             console.log(`Hey, sorry. We don't have enough for you. Maybe next time.`)
         } else {
+        let quantityRemaining = (parseInt(products[userItem].stock_quantity) - parseInt(answer.quantity));
+        updateStock((userItem + 1), quantityRemaining)
         console.log(`\nThank you for shopping at Bamazon! \nYou have been charged $${totalPrice} for the ${products[userItem].product_name}(s).\n`);
         }
         connection.end();
       });
   });
 }
+
+function updateStock(id, quantity) {
+    connection.query(
+        `UPDATE products SET stock_quantity = ${quantity} WHERE item_id = ${id}`,
+    function(err, res) {
+          console.log(res.affectedRows + " product stock updated!\n");
+        })
+    };
