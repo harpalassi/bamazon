@@ -40,24 +40,30 @@ function welcomeStats() {
 }
 
 function itemAndQuantity() {
-connection.query("SELECT * FROM products", function(err, products) {
-        if (err) throw err;
-  inquirer
-    .prompt([
-      {
-        name: "id",
-        type: "input",
-        message: "Enter the id# for the product you would like to purchase."
-      },
-      {
-        name: "quantity",
-        type: "input",
-        message: "How many would you like to purchase?"
-      }
-    ])
-    .then(function(answer) {
-      console.log(answer.id, answer.quantity);
-
-    });
-})
+  connection.query("SELECT * FROM products", function(err, products) {
+    if (err) throw err;
+    inquirer
+      .prompt([
+        {
+          name: "id",
+          type: "input",
+          message: "Enter the id# for the product you would like to purchase."
+        },
+        {
+          name: "quantity",
+          type: "input",
+          message: "How many would you like to purchase?"
+        }
+      ])
+      .then(function(answer) {
+        let userItem = parseInt(answer.id - 1);
+        let totalPrice = (parseInt(answer.quantity) * parseInt(products[userItem].price)).toFixed(2);
+        if (answer.quantity > products[userItem].stock_quantity) {
+            console.log(`Hey, sorry. We don't have enough for you. Maybe next time.`)
+        } else {
+        console.log(`\nThank you for shopping at Bamazon! \nYou have been charged $${totalPrice} for the ${products[userItem].product_name}(s).\n`);
+        }
+        connection.end();
+      });
+  });
 }
