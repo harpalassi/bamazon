@@ -14,29 +14,38 @@ connection.connect(function(err) {
   viewOptions();
 });
 
+function newLine() {
+    console.log(`\n`);
+}
+
 function viewOptions() {
-connection.query("SELECT * FROM products", function(err, products) {
-        if (err) throw err;
+  connection.query("SELECT * FROM products", function(err, products) {
+    if (err) throw err;
     inquirer
       .prompt({
         name: "options",
         type: "list",
-        message: "Welcome to BAMAZON Manager! Please select an option to proceed.",
-        choices: ["View Products for Sale", "View Low Inventory", "Add to Inventory", "Add New Product"]
+        message:
+          "Welcome to BAMAZON Manager! Please select an option to proceed.",
+        choices: [
+          "View Products for Sale",
+          "View Low Inventory",
+          "Add to Inventory",
+          "Add New Product"
+        ]
       })
       .then(function(answer) {
-          if (answer.options === "View Products for Sale") {
-            console.log(`\n`);
-            products.forEach(function(product, i) {
-                console.log(
-                  `id #${products[i].item_id}: ${products[i].product_name}, $${products[i].price.toFixed(2)}, Quantity: ${products[i].stock_quantity}`
-                );
-              });
-              console.log(`\n`);
-          }
+        if (answer.options === "View Products for Sale") {
+          newLine();
+          products.forEach(function(product, i) {
+            console.log(
+              `id #${products[i].item_id}: ${products[i].product_name}, $${products[i].price.toFixed(2)}, Quantity: ${products[i].stock_quantity}`
+            );
+          });
+          newLine();
+        }
         connection.end();
-      })
-  }
-)}
-
+      });
+  });
+}
 
