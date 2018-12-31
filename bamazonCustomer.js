@@ -11,7 +11,7 @@ let connection = mysql.createConnection({
 connection.connect(function(err) {
     if (err) throw err;
     console.log("connected as id " + connection.threadId + "\n");
-    afterConnection();
+    welcomeStats();
   });
 
   function afterConnection() {
@@ -20,4 +20,16 @@ connection.connect(function(err) {
       console.log(res);
       connection.end();
     });
+  }
+
+  function welcomeStats() {
+    connection.query("SELECT * FROM products", function(err, products) {
+        if (err) throw err;
+        console.log(`Welcome to Bamazon! Here's what we have for you today.\n`)
+        products.forEach(function(product, i) {
+        console.log(`id #${products[i].item_id}: ${products[i].product_name}, $${products[i].price}`)
+        });
+        console.log(`\n`);
+        connection.end();
+      });
   }
