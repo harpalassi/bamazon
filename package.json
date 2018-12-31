@@ -1,0 +1,23 @@
+{
+  "name": "bamazon",
+  "version": "1.0.0",
+  "description": "A node.js online database shop",
+  "main": "bamazonCustomer.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/harpalassi/bamazon.git"
+  },
+  "author": "Harpal",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/harpalassi/bamazon/issues"
+  },
+  "homepage": "https://github.com/harpalassi/bamazon#readme",
+  "dependencies": {
+    "inquirer": "^6.2.1",
+    "mysql": "^2.16.0"
+  }
+}
