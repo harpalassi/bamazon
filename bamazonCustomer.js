@@ -26,12 +26,10 @@ connection.connect(function(err) {
 function welcomeStats() {
   connection.query("SELECT * FROM products", function(err, products) {
     if (err) throw err;
-    console.log(`Welcome to Bamazon! Here's what we have for you today.\n`);
+    console.log(`Welcome to BAMAZON! Here's what we have for you today.\n`);
     products.forEach(function(product, i) {
       console.log(
-        `id #${products[i].item_id}: ${products[i].product_name}, $${
-          products[i].price
-        }`
+        `id #${products[i].item_id}: ${products[i].product_name}, $${products[i].price.toFixed(2)}`
       );
     });
     console.log(`\n`);
