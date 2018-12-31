@@ -15,6 +15,8 @@ connection.connect(function(err) {
 });
 
 function viewOptions() {
+connection.query("SELECT * FROM products", function(err, products) {
+        if (err) throw err;
     inquirer
       .prompt({
         name: "options",
@@ -23,8 +25,18 @@ function viewOptions() {
         choices: ["View Products for Sale", "View Low Inventory", "Add to Inventory", "Add New Product"]
       })
       .then(function(answer) {
-        // answer code here
-      });
+          if (answer.options === "View Products for Sale") {
+            console.log(`\n`);
+            products.forEach(function(product, i) {
+                console.log(
+                  `id #${products[i].item_id}: ${products[i].product_name}, $${products[i].price.toFixed(2)}, Quantity: ${products[i].stock_quantity}`
+                );
+              });
+              console.log(`\n`);
+          }
+        connection.end();
+      })
   }
+)}
 
 
