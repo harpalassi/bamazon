@@ -1,3 +1,6 @@
+let newStockTotal; 
+let productName; 
+
 let mysql = require("mysql");
 let inquirer = require("inquirer");
 let connection = mysql.createConnection({
@@ -39,7 +42,10 @@ function viewOptions() {
         if (answer.options === "View Low Inventory") {
           lowInventory();
         }
-        connection.end();
+        if (answer.options === "Add to Inventory") {
+            viewForSale();
+            setTimeout(addToInventory, 500);
+        }
       });
 }
 
@@ -53,8 +59,8 @@ function viewForSale () {
           );
         });
         newLine();
-    }
-)}
+    })
+}
 
 function lowInventory() {
   connection.query("SELECT * FROM products WHERE stock_quantity < 5", function(err, products) {
@@ -68,3 +74,41 @@ function lowInventory() {
     newLine();
   });
 }
+
+
+
+function addToInventory() {
+    connection.query("SELECT * FROM products", function(err, products) {
+      if (err) throw err;
+      inquirer
+        .prompt([
+          {
+            name: "id",
+            type: "input",
+            message: "Enter the id# for the product you would like to add stock."
+          },
+          {
+            name: "quantity",
+            type: "input",
+            message: "How many would you like to add?"
+          }
+        ])
+        .then(function(answer) {
+          let userItem = parseInt(answer.id - 1);
+          let id = products[userItem].item_id;
+          let newQuantity = parseInt(products[userItem].stock_quantity) + parseInt(answer.quantity);
+          updateStock(id, newQuantity)
+          console.log(`\nStock for ${products[userItem].product_name} has been updated to ${newQuantity}.\n`);
+          connection.end();
+        });
+    });
+  }
+
+
+function updateStock(id, quantity) {
+    connection.query(
+        `UPDATE products SET stock_quantity = ${quantity} WHERE item_id = ${id}`,
+    function(err, res) {
+        //   console.log(res.affectedRows + " product stock updated!\n");
+        })
+    };
