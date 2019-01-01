@@ -35,9 +35,11 @@ function viewOptions() {
       .then(function(answer) {
         if (answer.options === "View Products for Sale") {
           viewForSale();
+          connection.end();
         }
         if (answer.options === "View Low Inventory") {
           lowInventory();
+          connection.end();
         }
         if (answer.options === "Add to Inventory") {
             viewForSale();
