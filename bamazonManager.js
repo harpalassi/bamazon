@@ -108,5 +108,6 @@ function updateStock(id, quantity) {
     connection.query(
         `UPDATE products SET stock_quantity = ${quantity} WHERE item_id = ${id}`,
     function(err, res) {
+        if (err) throw err;
         })
     };
