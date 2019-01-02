@@ -153,7 +153,7 @@ function createProduct() {
                 },
                 function(err, res) {
                   newLine();
-                  console.log(res.affectedRows + " new product inserted!");
+                  setTimeout(function () {console.log(`${res.affectedRows} new product inserted!\n`)}, 500);
                   if (res.affectedRows) {
                       viewForSale();
                       connection.end();

@@ -14,14 +14,6 @@ connection.connect(function(err) {
   welcomeStats();
 });
 
-// function afterConnection() {
-//   connection.query("SELECT * FROM products", function(err, res) {
-//     if (err) throw err;
-//     console.log(res);
-//     connection.end();
-//   });
-// }
-
 // function to greet user and show selection of products from database
 function welcomeStats() {
   connection.query("SELECT * FROM products", function(err, products) {
