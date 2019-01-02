@@ -96,12 +96,9 @@ function addToInventory() {
           }
         ])
         .then(function(answer) {
-          let userItem = parseInt(answer.id - 1);
-          let id = products[userItem].item_id;
-          let newQuantity = parseInt(products[userItem].stock_quantity) + parseInt(answer.quantity);
-          updateStock(id, newQuantity)
-          console.log(`\nStock for ${products[userItem].product_name} has been updated to ${newQuantity}.\n`);
-          connection.end();
+          let id = answer.id;
+          let quantity = parseInt(answer.quantity);
+          updateStock(id, quantity)
         });
     });
   }
@@ -109,9 +106,14 @@ function addToInventory() {
 
 function updateStock(id, quantity) {
     connection.query(
-        `UPDATE products SET stock_quantity = ${quantity} WHERE item_id = ${id}`,
+        `UPDATE products SET stock_quantity = stock_quantity + ${quantity} WHERE item_id = ${id}`,
     function(err, res) {
             if (err) throw err;
+            if (res.affectedRows) {
+                viewForSale();
+                setTimeout(function () {console.log(`Stock has been successfully added for ${res.affectedRows} product.\n`)}, 500);
+                connection.end();
+            }
         })
     };
 
