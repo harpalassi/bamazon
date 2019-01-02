@@ -45,6 +45,9 @@ function viewOptions() {
             viewForSale();
             setTimeout(addToInventory, 500);
         }
+        if (answer.options === "Add New Product") {
+            createProduct();
+        }
       });
 }
 
@@ -108,6 +111,53 @@ function updateStock(id, quantity) {
     connection.query(
         `UPDATE products SET stock_quantity = ${quantity} WHERE item_id = ${id}`,
     function(err, res) {
-        if (err) throw err;
+            if (err) throw err;
         })
     };
+
+function createProduct() {
+    inquirer
+        .prompt([
+          {
+            name: "name",
+            type: "input",
+            message: "Enter the name of the product:"
+          },
+          {
+            name: "department",
+            type: "input",
+            message: "Enter the department name for the product:"
+          },
+          {
+            name: "price",
+            type: "input",
+            message: "Enter the price for the product:"
+          },
+          {
+            name: "quantity",
+            type: "input",
+            message: "Enter the stock quantity:"
+          }
+        ])
+        .then(function(answer) {
+            // console.log(answer.name, answer.department, answer.price, answer.quantity)
+            connection.query(
+                "INSERT INTO products SET ?",
+                {
+                  product_name: answer.name,
+                  department_name: answer.department,
+                  price: answer.price,
+                  stock_quantity: answer.quantity
+                },
+                function(err, res) {
+                  newLine();
+                  console.log(res.affectedRows + " new product inserted!");
+                  if (res.affectedRows) {
+                      viewForSale();
+                      connection.end();
+                  }
+                }
+            )})
+        };
+
+        
