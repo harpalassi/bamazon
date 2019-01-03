@@ -142,7 +142,6 @@ function createProduct() {
           }
         ])
         .then(function(answer) {
-            // console.log(answer.name, answer.department, answer.price, answer.quantity)
             connection.query(
                 "INSERT INTO products SET ?",
                 {

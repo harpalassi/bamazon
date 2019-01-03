@@ -46,14 +46,16 @@ function itemAndQuantity() {
         }
       ])
       .then(function(answer) {
-        let userItem = parseInt(answer.id - 1);
-        let totalPrice = (parseInt(answer.quantity) * parseInt(products[userItem].price)).toFixed(2);
-        if (answer.quantity > products[userItem].stock_quantity) {
+        const result = products.filter(product => parseInt(product.item_id) === parseInt(answer.id));
+        console.log(result[0].item_id);
+        let totalPrice = (parseInt(answer.quantity) * parseInt(result[0].price).toFixed(2));
+        console.log(totalPrice);
+        if (parseInt(answer.quantity) > parseInt(result[0].stock_quantity)) {
             console.log(`Hey, sorry. We don't have enough for you. Maybe next time.`)
         } else {
-        let quantityRemaining = (parseInt(products[userItem].stock_quantity) - parseInt(answer.quantity));
-        updateStock((userItem + 1), quantityRemaining)
-        console.log(`\nThank you for shopping at Bamazon! \nYou have been charged $${totalPrice} for the ${products[userItem].product_name}(s).\n`);
+            let quantityRemaining = (parseInt(result[0].stock_quantity) - parseInt(answer.quantity));
+            updateStock(parseInt(answer.id), quantityRemaining)
+            console.log(`\nThank you for shopping at BAMAZON! \nYou have been charged $${totalPrice} for the ${result[0].product_name}(s).\n`)
         }
         connection.end();
       });
