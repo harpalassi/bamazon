@@ -47,9 +47,7 @@ function itemAndQuantity() {
       ])
       .then(function(answer) {
         const result = products.filter(product => parseInt(product.item_id) === parseInt(answer.id));
-        console.log(result[0].item_id);
         let totalPrice = (parseInt(answer.quantity) * parseInt(result[0].price).toFixed(2));
-        console.log(totalPrice);
         if (parseInt(answer.quantity) > parseInt(result[0].stock_quantity)) {
             console.log(`Hey, sorry. We don't have enough for you. Maybe next time.`)
         } else {
