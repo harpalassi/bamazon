@@ -1,3 +1,5 @@
+//setting up the mysql connection to the database
+
 let mysql = require("mysql");
 let inquirer = require("inquirer");
 let connection = mysql.createConnection({
@@ -14,10 +16,12 @@ connection.connect(function(err) {
   viewOptions();
 });
 
+//creates new line in command line
 function newLine() {
   console.log(`\n`);
 }
 
+//welcomes user to manager interface, provides options to choose from and fires function needed
 function viewOptions() {
     inquirer
       .prompt({
@@ -51,6 +55,7 @@ function viewOptions() {
       });
 }
 
+//prints item id#, item name, price, and the quantity for each item in our database table
 function viewForSale () {
     connection.query("SELECT * FROM products", function(err, products) {
         if (err) throw err;
@@ -64,6 +69,7 @@ function viewForSale () {
     })
 }
 
+//selects items whose stock quantity is less than 5 and prints them to the console
 function lowInventory() {
   connection.query("SELECT * FROM products WHERE stock_quantity < 5", function(err, products) {
     if (err) throw err;
@@ -78,7 +84,7 @@ function lowInventory() {
 }
 
 
-
+//takes user inputs to add stock using inquirer and passes them to updateStock() 
 function addToInventory() {
     connection.query("SELECT * FROM products", function(err, products) {
       if (err) throw err;
@@ -103,7 +109,7 @@ function addToInventory() {
     });
   }
 
-
+//takes the results and updates the database with the new quantity and prints a success message
 function updateStock(id, quantity) {
     connection.query(
         `UPDATE products SET stock_quantity = stock_quantity + ${quantity} WHERE item_id = ${id}`,
@@ -117,6 +123,8 @@ function updateStock(id, quantity) {
         })
     };
 
+//takes user inputs to create a new product, inserts the details into the database
+//and prints out updated inventory
 function createProduct() {
     inquirer
         .prompt([

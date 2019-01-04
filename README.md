@@ -15,3 +15,4 @@ Example of the inventory screen from the manager layout:
 ![inventory](inventory.png)
 
 For a comprehensive rundown, please [click here](https://drive.google.com/file/d/1b7H_0DPXc5qmNZgUAMocWVzl7yDiekLA/view) to view a full video walkthrough of the app.
+
