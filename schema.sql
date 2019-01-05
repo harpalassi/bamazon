@@ -8,6 +8,6 @@ CREATE TABLE products
     product_name VARCHAR(100),
     department_name VARCHAR(100),
     price FLOAT(5,2),
-    stock_quantity INT(10),
+    stock_quantity INT(4),
     PRIMARY KEY(item_id)
 );
